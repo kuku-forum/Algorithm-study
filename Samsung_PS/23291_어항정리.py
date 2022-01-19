@@ -1,8 +1,11 @@
 from collections import defaultdict, deque
 from copy import deepcopy
+from pprint import pprint
 
 N, K = map(int, input().split())
 
+
+# 작은 수의 어항 물고기 더해주기
 def fish_input(board):
     fish_pos = defaultdict(list)
     min_val = 0xffff
@@ -17,9 +20,13 @@ def fish_input(board):
     for rm_i, rm_j in fish_pos[min_val]:
         board[rm_i][rm_j] += 1
     
+    
+# 한칸만 쌓기
 def organize_fir(board):
     board[-1][0], board[-2][1] = bin_sign, board[-1][0]
     
+    
+# 반복해서 쌓기
 def organize_sec(board_copy):
     global board
     
@@ -55,7 +62,8 @@ def organize_sec(board_copy):
     
     board = deepcopy(board_copy)
     return 'go'
-    
+
+# 물고기 분배하기   
 def fish_dist(board):
     direc_list = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     rm_dic = defaultdict(set)
@@ -81,6 +89,7 @@ def fish_dist(board):
             board[ey][ex] += d
                 
 
+# 여항 쭉 펼치기
 def re_span(board):
     tmp_row = deque([[]])
     
@@ -94,6 +103,7 @@ def re_span(board):
     return tmp_row
 
 
+# 어항 절반씩 쌓기
 def half_stack(board):
     
     for row in board:
@@ -117,6 +127,10 @@ def half_stack(board):
     
     return tmp_board
 
+def board_print(arr):
+    for row in arr:
+        print(row)
+    print()
     
 bin_sign = 'x'
 answer = 1
@@ -129,31 +143,53 @@ while True:
     
     # 작은 수의 어항 물고기 더해주기
     fish_input(board)
+    print('#1')
+    # board_print(board)
+    print()
     
     # 한칸만 쌓기
     organize_fir(board)
+    print('#2')
+    # board_print(board)
+    print()
     
     # 반복해서 쌓기
     while True:
         stop_sign = organize_sec(deepcopy(board))
         if stop_sign == 'stop':
             break
+        board_print(board)
     
     # 물고기 분배하기
     fish_dist(board) 
+    print('#3')
+    
+    # print()
     
     # 어항 쭉 펼치기  
     board = re_span(board)
+    # print('#4')
+    # pprint(board)
+    # print()
     
     # 어항 절반씩 쌓기
     board = half_stack(board)
+    # print('#5')
+    # pprint(board)
+    # print()
     
     # 물고기 분배하기
     fish_dist(board)
+    # print('#6')
+    # pprint(board)
+    # print()
     
     # 여항 쭉 펼치기
     last_board = re_span(board)
-
+    # print('#7')
+    # pprint(board)
+    # print()
+    
     if K >= max(last_board[0]) - min(last_board[0]):
         break
     
