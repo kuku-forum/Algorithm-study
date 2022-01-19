@@ -3,8 +3,6 @@ from copy import deepcopy
 
 N, K = map(int, input().split())
 
-
-
 def fish_input(board):
     fish_pos = defaultdict(list)
     min_val = 0xffff
