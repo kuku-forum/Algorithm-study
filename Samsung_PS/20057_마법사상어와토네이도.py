@@ -10,115 +10,79 @@
 '''
 
 
-
-
+def pprint(arr):
+    for row in arr:
+        print(row)
+    print()
+    
+    
 N = int(input())
 
 board = []
 
 for _ in range(N):
     board.append(list(map(int, input().split())))
-
-# 서, 북, 동, 남
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
-distance = []
-
-for i in range(1, N):
-    distance.append(i)
-    distance.append(i)
-distance.append(N-1)
-
-pos = [[N//2, N//2]]
-
-splash_W = {(-1, 0): 0.07, (1, 0): 0.07, (-1, 1): 0.01, (1, 1): 0.01,
-            (-2, 0): 0.02, (2, 0): 0.02, (-1, -1): 0.1, (1, -1): 0.1, (0, -2): 0.05}
-
-splash_S = {(0, 1): 0.07, (0, -1): 0.07, (-1, 1): 0.01, (-1, -1): 0.01,
-            (0, 2): 0.02, (0, -2): 0.02, (1, -1): 0.1, (1, 1): 0.1, (2, 0): 0.05}
-
-splash_E = {(-1, 0): 0.07, (1, 0): 0.07, (-1, -1): 0.01, (1, -1): 0.01,
-            (-2, 0): 0.02, (2, 0): 0.02, (-1, 1): 0.1, (1, 1): 0.1, (0, 2): 0.05}
-
-splash_N = {(0, -1): 0.07, (0, 1): 0.07, (1, -1): 0.01, (1, 1): 0.01,
-            (0, -2): 0.02, (0, 2): 0.02, (-1, -1): 0.1, (-1, 1): 0.1, (-2, 0): 0.05}
+    
+splash_dic = {0: [(0, -2, 0.05), (-1, -1, 0.1), (1, -1, 0.1), (-1, 0, 0.07), (1, 0, 0.07), (-1, 1, 0.01), (1, 1, 0.01), (2, 0, 0.02), (-2, 0, 0.02)],
+                  
+              1: [(2, 0, 0.05), (1, -1, 0.1), (1, 1, 0.1), (0, -1, 0.07), (0, 1, 0.07), (-1, -1, 0.01), (-1, 1, 0.01), (0, -2, 0.02), (0, 2, 0.02)],
+              
+              2: [(0, 2, 0.05), (-1, 1, 0.1), (1, 1, 0.1), (-1, 0, 0.07), (1, 0, 0.07), (-1, -1, 0.01), (1, -1, 0.01), (-2, 0, 0.02), (2, 0, 0.02)],
+              
+              3: [(-2, 0, 0.05), (-1, -1, 0.1), (-1, 1, 0.1), (0, -1, 0.07), (0, 1, 0.07), (1, -1, 0.01), (1, 1, 0.01), (0, -2, 0.02), (0, 2, 0.02)]}
 
 
-splash_lst = [splash_W, splash_S, splash_E, splash_N]
-direct_damage = [(0, -1), (1, 0), (0, 1), (1, 0)]
+# 서, 남, 동, 북
+move_list = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 
-cnt = 1
-answer = 0
-print(distance)
-for i, dist in enumerate(distance):
-    for _ in range(1, dist+1):
+def shark_move(board):
+    result = 0
+    idx = 0
+    y, x = N//2, N//2
+        
+    for step in range(1, N):
+        repeat_step = 3 if step == N - 1 else 2
+        
+        for _ in range(repeat_step):
+            idx %= 4
+            dy, dx = move_list[idx]
+            
+            for _ in range(step):
+                y += dy
+                x += dx
+                result += splash(board, y, x, idx)
+            idx += 1
+            
+    return result
 
 
-        # print('#1',i, pos[-1][0], pos[-1][0])
-        # print('#2', [i % (N-1)], [i % (N-1)])
-        y = dy[i % 4] + pos[-1][0]
-        x = dx[i % 4] + pos[-1][1]
-        # print(pos)
-        pos.append([y, x]) # 현재 위치
+def splash(board, y, x, news):
+    sand, board[y][x] = board[y][x], 0
+    total_damage = 0
+    out_sand = 0
 
-        print()
-        print(i, answer, y, x, pos[-2][0], pos[-2][1], dy[i % 4], dx[i % 4])
-
-        if board[y][x] > 9:
-            # 현재위치에 있는 모래
-            sand = board[y][x]
-            for point in splash_lst[i % 4]:
-                # splash 위치 파악
-                ny = y + point[0]
-                nx = x + point[1]
-                damage = int(splash_lst[i % 4][(point[0], point[1])] * board[y][x])
-                print(splash_lst[i % 4][(point[0], point[1])],board[y][x], damage)
-
-                if N > ny >= 0 and N > nx >= 0 and damage > 0:
-                    board[ny][nx] += damage
-                    sand -= damage
-                else:
-                    answer += damage
-                    sand -= damage
-            else:
-                ny = y + direct_damage[i % 4][0]
-                nx = x + direct_damage[i % 4][1]
-                print('#2', i, y, x, ny, nx, sand)
-
-                if N > ny >= 0 and N > nx >= 0:
-                    board[ny][nx] += sand
-                    board[y][x] = 0
-                else:
-                    answer += sand
-                    board[y][x] = 0
-
-        elif 9 >= board[y][x] > 0:
-            sand = board[y][x]
-            ny = y + direct_damage[i % 4][0]
-            nx = x + direct_damage[i % 4][1]
-
-            if N > ny >= 0 and N > nx >= 0:
-                print('#3', ny, nx, y, x)
-                board[ny][nx] += sand
-                board[y][x] = 0
-            else:
-                answer += sand
-                board[y][x] = 0
+    for dy, dx, damage, in splash_dic[news]:
+        ny = y + dy
+        nx = x + dx
+        spalsh_damge = int(sand*damage)
+        total_damage += spalsh_damge
+        
+        if N > ny >= 0 and N > nx >= 0:
+            board[ny][nx] += spalsh_damge
         else:
-            continue
+            out_sand += spalsh_damge
+    else:
+        dy, dx = move_list[news]
+        ny = y + dy
+        nx = x + dx
+        
+        if N > ny >= 0 and N > nx >= 0:
+            board[ny][nx] += (sand - total_damage)
+        else:
+            out_sand += (sand - total_damage)
+    
+    return out_sand
 
-        for row in board:
-            print(row)
 
+answer = shark_move(board)
 print(answer)
-print(board)
-
-
-
-
-
-
-
-
-
-
