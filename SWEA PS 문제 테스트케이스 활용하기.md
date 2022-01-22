@@ -259,26 +259,24 @@
 >     '''
 >     your code
 >     '''
+>     # 기존에 사용했던 정답 출력 방법
+>     answer_print = f'#{t} {answer}'
+>     print(answer_print)
+>     '''혹은'''
+>     print(f'#{t} {answer}')
 > 
-> 	'''정답 출력'''
-> 	# 기존에 사용했던 출력 방법
-> 	answer_print = f'#{t} {answer}'
-> 	print(answer_print)
-> 	'''혹은'''
-> 	print(f'#{t} {answer}')
 > 
->     
-> 	# 새롭게 제안하는 방법
-> 	swea_tc(answer_print)
-> 	'''혹은'''
-> 	swea_tc(f'#{t} {answer}')
+>     # 새롭게 제안하는 정답 출력 방법
+>         swea_tc(answer_print)
+>     '''혹은'''
+>     swea_tc(f'#{t} {answer}')
 > ```
->
+> 
 > 그럼 아래와 같이 콘솔에 출력이 되어 정답유무 및 오답 체크를 진행해 줍니다.  
-> (틀렸을 경우 정답을 표시해줍니다.)  
->
+>(틀렸을 경우 정답을 표시해줍니다.)  
+> 
 > ```python
-> ---debug terminal---
+>---debug terminal---
 > 
 > #1 13 -> O
 > #2 32 -> O
@@ -291,13 +289,13 @@
 > #9 13 -> X, answer: #9 12
 > #10 29 -> X, answer: #10 55
 > ```
->
+> 
 > 모든 내용이 확인되면
 >
 > SWEA에 제출할땐  `print()` 함수를 기입하여 제출하면 됩니다.
 >
 > ```python
-> from my_package.hjtc import swea_tc # 삭제
+>from my_package.hjtc import swea_tc # 삭제
 > 
 > swea_tc(answer) #삭제
 > print(answer) # 기입 후 제출
