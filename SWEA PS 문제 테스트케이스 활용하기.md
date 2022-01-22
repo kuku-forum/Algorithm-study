@@ -68,7 +68,7 @@
 1. input.txt를 저장하여 복붙없이 바로 디버깅 되도록 할것
    - 경로 이슈가 있을 수 있으니, **아래에 추가 설명 참고**
 
-> <img src="SWEA PS 문제 테스트케이스 활용하기.assets/image-20220122190044894.png" alt="image-20220122190044894" style="zoom:50%;" align='left'/>
+> <img src="SWEA PS 문제 테스트케이스 활용하기.assets/image-20220122190044894.png" alt="image-20220122190044894" style="zoom:50%;" />
 >
 > 
 >
@@ -150,7 +150,7 @@
 >
 > 저같은 경우는 SWEA란 폴더에서 난이도 별로 D1, D2, D3 폴더를 만들어서 내부에 .py 파일을 제작하여 코딩하고있습니다.
 >
-> <img src="SWEA PS 문제 테스트케이스 활용하기.assets/image-20220122190044894.png" alt="image-20220122190044894" style="zoom:50%;" align='left'/>
+> <img src="SWEA PS 문제 테스트케이스 활용하기.assets/image-20220122190044894.png" alt="image-20220122190044894" style="zoom:50%;" />
 
 이를 정리해서 보면 `SWEA 폴더` → `D1, D2, D3`, `D3` → `my_package` → `testcase` 이렇게 경로가 설정됩니다.
 
@@ -177,7 +177,7 @@
 
 > 여기서 여러문제를 풀다가 `input(1).txt` 로 다운받아질 수 있는데, 꼭 **파일명 확인**하시길 바랍니다.
 >
-> <img src="SWEA PS 문제 테스트케이스 활용하기.assets/image-20220122193905010.png" alt="image-20220122193905010" style="zoom:50%;" align='left'/>
+> <img src="SWEA PS 문제 테스트케이스 활용하기.assets/image-20220122193905010.png" alt="image-20220122193905010" style="zoom:50%;" />
 >
 > 
 >
