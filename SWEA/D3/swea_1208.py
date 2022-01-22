@@ -1,4 +1,4 @@
-from my_package.hjtc import swea_tc
+# from my_package.hjtc import swea_tc
 from heapq import heappush, heappop
 
 for t in range(1, 11):
@@ -15,6 +15,7 @@ for t in range(1, 11):
     for _ in range(N):
         max_val = heappop(max_heap)[1]
         max_val -=1
+        
         heappush(max_heap, (-max_val, max_val))
         
         min_val = heappop(min_heap)[1]
@@ -25,5 +26,6 @@ for t in range(1, 11):
     min_val = heappop(min_heap)[1]
     answer = max_val - min_val
     
-    swea_tc(f'#{t} {answer}')   
+    # swea_tc(f'#{t} {answer}')   
+    print(f'#{t} {answer}')
     
