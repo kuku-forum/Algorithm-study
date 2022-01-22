@@ -55,7 +55,7 @@
 >
 > 예) #6 10008을 확인하더라도 다른 케이스의 정답을 확인하려면 열심히 드래그해야합니다..ㅜㅠ
 
-<img src="SWEA PS 문제 테스트케이스 활용하기.assets/image-20220122182949931.png" alt="image-20220122182949931" style="zoom:25%;" />
+<img src="SWEA PS 문제 테스트케이스 활용하기.assets/image-20220122182949931.png" alt="image-20220122182949931" style="zoom:5%;" />
 
 
 
