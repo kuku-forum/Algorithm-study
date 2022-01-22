@@ -116,7 +116,8 @@
 > 따라서 제일 간단한 방법부터, 제가 고안한 방법까지 설명드리겠습니다.    
 
 
-**2.1.1 제일 단순한 방법인 input.txt 파일만 읽기**
+
+#### 2.1.1 제일 단순한 방법인 input.txt 파일만 읽기
 
 > 우선 input.txt를 본인이 원하는 위치에 다운 받아줍니다.  
 >그다음 PS 문제를 풀때 위에 아래 코드 2줄만 넣어주면 됩니다.
@@ -143,8 +144,7 @@
 
   
 
-
-**2.1.2 라이브러리를 통한 input.txt, output.txt 비교하기** 
+#### 2.1.2 라이브러리를 통한 input.txt, output.txt 비교하기
 
 > 해당 과정을 진행하기전에 폴더를 만들어줘야합니다.  
 >**폴더 및 코드는 나중에 업로드할 예정**
@@ -230,59 +230,59 @@
 > _answer_list.pop(0)
 >```
 > 
+
+
+
+> 마지막으로 해당 코드를 사용해 봅시다. (예를 들어 표현해 보겠습니다.)
 >
-> 
-
-마지막으로 해당 코드를 사용해 봅시다. (예를 들어 표현해 보겠습니다.)
-
 > **hjtc라이브러리에서 swea_tc 함수 호출를 진행한 후에**  
->*print() 출력 대신 swea_tc()로 출력하면 됩니다.**  
-> 
->```python
+> *print() 출력 대신 swea_tc()로 출력하면 됩니다.**  
+>
+> ```python
 > # hjtc라이브러리에서 swea_tc 함수 호출
->from my_package.hjtc import swea_tc
+> from my_package.hjtc import swea_tc
 > 
->T = int(input())
+> T = int(input())
 > for t in range(1, T+ 1):
->answer = 0
+> answer = 0
 > 
->'''
+> '''
 > your code
->'''
+> '''
 > 
 > 	'''정답 출력'''
 > 	# 기존에 사용했던 출력 방법
 > answer_print = f'#{t} {answer}'
 > print(answer_print)
 > '''혹은'''
->    print(f'#{t} {answer}')
->    
+> print(f'#{t} {answer}')
+> 
 > 	# 새롭게 제안하는 방법
->swea_tc(answer_print)
+> swea_tc(answer_print)
 > '''혹은'''
->swea_tc(f'#{t} {answer}')
+> swea_tc(f'#{t} {answer}')
 > ```
 >
 > 그럼 아래와 같이 콘솔에 출력이 되어 정답유무 및 오답 체크를 진행해 줍니다.  
->(틀렸을 경우 정답을 표시해줍니다.)  
-> 
->```
+> (틀렸을 경우 정답을 표시해줍니다.)  
+>
+> ```
 > #1 13 -> O
->#2 32 -> O
+> #2 32 -> O
 > #3 54 -> O
->#4 25 -> O
+> #4 25 -> O
 > #5 87 -> O
->#6 14 -> O
+> #6 14 -> O
 > #7 39 -> X, answer: #7 40
->#8 26 -> O
+> #8 26 -> O
 > #9 13 -> X, answer: #9 12
->#10 29 -> X, answer: #10 55
+> #10 29 -> X, answer: #10 55
 > ```
 >
 > 모든 내용이 확인되면
 >
 > SWEA에 제출할땐 `print()` 함수를 기입하여 제출하면 됩니다.
-> 
+>
 > ```python
 > from my_package.hjtc import swea_tc # 삭제
 > swea_tc(answer) #삭제
@@ -290,7 +290,7 @@
 > ```
 
   
-  
+
 
 
 ##   끝으로..
