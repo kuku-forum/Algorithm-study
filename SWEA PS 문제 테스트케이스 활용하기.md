@@ -70,7 +70,7 @@
 
 > <img src="SWEA PS 문제 테스트케이스 활용하기.assets/image-20220122190044894.png" alt="image-20220122190044894" width = "25%" height = "25%" />
 
-2. **라이브러리화 하여 편하게 함수로 사용할 수 있을 것**
+2. **라이브러리화 하여 편하게 함수로 사용할 수 있을 것(아래 코드는 실제 사용방법)**
 
 > ``` python
 > from my_package.hjtc import swea_tc
