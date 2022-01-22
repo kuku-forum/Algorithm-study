@@ -236,7 +236,7 @@
 > 	else:
 > 		print(f'{_answer_yours} -> X, answer: {_answer}')
 > 
->     # 비교가 완료된 answer_list의 값(첫번째줄) 은 삭제
+> 	# 비교가 완료된 answer_list의 값(첫번째줄) 은 삭제
 > 	_answer_list.pop(0)
 > ```
 >
