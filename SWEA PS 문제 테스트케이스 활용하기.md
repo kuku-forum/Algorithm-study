@@ -254,11 +254,11 @@
 > 
 > T = int(input())
 > for t in range(1, T+ 1):
-> answer = 0
+>     answer = 0
 > 
-> '''
-> your code
-> '''
+>     '''
+>     your code
+>     '''
 > 
 > 	'''정답 출력'''
 > 	# 기존에 사용했던 출력 방법
