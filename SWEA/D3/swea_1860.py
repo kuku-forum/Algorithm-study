@@ -9,13 +9,13 @@ for t in range(1, T + 1):
     
     N, M, K = map(int, input().split())
     que = deque(sorted(map(int, input().split())))
-    # print(que)
-    
     bread = 0
     cnt = 0
     flag = False
+    
     if que[0] == 0:
-        swea_tc(f'#{t} {answer}')
+        print(f'#{t} {answer}')
+        
     else:
         while que:
             cnt += 1
@@ -32,10 +32,7 @@ for t in range(1, T + 1):
                     break
             if flag:
                 break
-            
-            
         else:
             answer = 'Possible'
-    
         
-        swea_tc(f'#{t} {answer}')
+        print(f'#{t} {answer}')
