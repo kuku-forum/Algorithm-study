@@ -11,7 +11,9 @@ def swea_tc(_answer_yours):
     
     if _answer == _answer_yours:
         print(f'{_answer_yours} -> O')
+        
     else:
         print(f'{_answer_yours} -> X, answer: {_answer}')
+        
         
     _answer_que.popleft()
