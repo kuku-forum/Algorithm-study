@@ -31,21 +31,17 @@ def bfs(board, act_virus, rm_room):
     visited = [[-1 for _ in range(N)] for _ in range(N)]
     
     # 선택된 바이러스는 0으로 선언
-    # 선택되지 않은 바이러스는 -2로 선언
+    # 선택되지 않은 바이러스(비활성화)는 -2로 선언
     for dis_virus in virus_pos:
         if dis_virus not in act_virus:
             visited[dis_virus[0]][dis_virus[1]] = -2
         else:
             visited[dis_virus[0]][dis_virus[1]] = 0
-    '''
-    [[0, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, 0, -1],
-    [-1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, 0, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1],
-    [-2, -1, -1, -1, -1, -1, -2]]
-    '''
+    
+    
+    # (1, 2, 3, 4, 5)
+    # (1, 2, 3), (1, 2, 4)
+    # deque([1,2,3])
     que = deque(act_virus)
     # 총 걸린 시간
     total_time = 0
