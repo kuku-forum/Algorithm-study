@@ -9,27 +9,73 @@ N = 1000,  0.143 0.018 0.013 0.019
 N = 10000, 22.879 4.618 1.965 4.311
 '''
 
+'''
+# 향후 문제가 자주나오는데, rot90, rot180, rot 270, transpose
+# 습관처럼 빡 놔았으면 좋겠다!
+# 빨리 돌려야한다.(코드가 빠른게아니라, 프로세싱속도가 빨라야한다.)
+
+
+[1, 2, 3]
+[4, 5, 6]
+[7, 8, 9]
+
+
+reversed(arr) -> O(1)
+[7, 8, 9]
+[4, 5, 6]
+[1, 2, 3]
+
+*reversed(arr)
+unpack -> pack 벗겨내겠다.
+
+zip(*reversed(arr))
+zip(7, 4, 1) -> zip type
+
+map(list, zip(*reversed(arr)))) # O(N)
+-> list type으로 변환
+[7, 4, 1],  [8, 5, 2],  [9, 6, 3]
+
+list(map(list, zip(*reversed(arr))))
+
+list([7, 4, 1],  [8, 5, 2],  [9, 6, 3])
+list(a_list, b_list, c_list) O(N)
+
+O(N) + O(N) => O(2N) => O(N)
+[[7, 4, 1],
+[8, 5, 2],
+[9, 6, 3]]
+
+'''
+
 import time
+
+def print_board(arr):
+    for row in arr:
+        print(row)
+    print()
 
 n = 1000
 board = [[0 for _ in range(n)] for _ in range(n)]
 N = len(board)
 
-# 22.879, O(N**2)
+# 22.879sec, O(N**2)
 def rot90_v1(arr):
-    new_row_list90 = []
-    for j in range(N):
-        new_row_list90.append([])
-        
-        for i in range(N-1, -1, -1):
-            new_row_list90[j].append(arr[i][j])
-    return new_row_list90
+    N = len(arr)
+    new_arr = [[0] * N for _ in range(N)]  # NxN 빈 배열 먼저 만들기
+    for i in range(N):
+        for j in range(N):
+            new_arr[i][j] = arr[N-1-j][i]
+    return new_arr
+
+
             
-# 4.618, O(2*N)
+# 4.618sec, O(2*N)
 def rot90_v2(arr):
     return list(map(list, zip(*reversed(arr))))
+    # return list(zip(*reversed(arr)))
+    # map(변환시킬 함수, iter되는 무언가(list, tuple))
 
-# 1.965, O(2*N)
+# 1.965, O(N)
 def rot180(arr):
     return list(map(list, map(reversed, reversed(arr))))
 
@@ -39,7 +85,7 @@ def rot270(arr):
 
 
 # 10회 실험
-end1, end2, end3, end4 = 0, 0, 0, 0
+end1, end2, end3, end4, end5 = 0, 0, 0, 0, 0
 
 for _ in range(10):
     start1 = time.time()  
