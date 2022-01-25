@@ -1,9 +1,10 @@
 '''
-N*N board를 90_v1, 90_v2, 180, 270 도를 회전할때 속도 측정
-10 번을진행하여 평균값을 구함
+N은 1000번, 10000번으로 설정
 
-90_v1: N^2
-90_v2: N
+N*N board를 90(v1), 90(v2), 180, 270 도를 회전할때 시간 측정
+10번을 진행하여 평균값을 구함
+
+# N, 90(v1), 90(v2), 180, 270
 N = 1000,  0.143 0.018 0.013 0.019
 N = 10000, 22.879 4.618 1.965 4.311
 '''
@@ -14,7 +15,7 @@ n = 1000
 board = [[0 for _ in range(n)] for _ in range(n)]
 N = len(board)
 
-# 22.879 
+# 22.879, O(N**2)
 def rot90_v1(arr):
     new_row_list90 = []
     for j in range(N):
@@ -22,26 +23,22 @@ def rot90_v1(arr):
         
         for i in range(N-1, -1, -1):
             new_row_list90[j].append(arr[i][j])
-    # N**2
     return new_row_list90
             
-# 4.618 
+# 4.618, O(2*N)
 def rot90_v2(arr):
     return list(map(list, zip(*reversed(arr))))
 
-# 1.965 
+# 1.965, O(2*N)
 def rot180(arr):
     return list(map(list, map(reversed, reversed(arr))))
-
-    # return list(map(list, O(1)))
-    # return list(O(N))
-    # return 2*O(N)
-    
 
 # 4.311
 def rot270(arr):
     return list(map(list, zip(*arr)))[::-1]
 
+
+# 10회 실험
 end1, end2, end3, end4 = 0, 0, 0, 0
 
 for _ in range(10):
