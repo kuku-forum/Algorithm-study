@@ -4,21 +4,18 @@ N은 1000번, 10000번으로 설정
 N*N board를 90(v1), 90(v2), 180, 270 도를 회전할때 시간 측정
 10번을 진행하여 평균값을 구함
 
+실험결과
 # N, 90(v1), 90(v2), 180, 270
-N = 1000,  0.143 0.018 0.013 0.019
-N = 10000, 22.879 4.618 1.965 4.311
-'''
-
-'''
-# 향후 문제가 자주나오는데, rot90, rot180, rot 270, transpose
-# 습관처럼 빡 놔았으면 좋겠다!
-# 빨리 돌려야한다.(코드가 빠른게아니라, 프로세싱속도가 빨라야한다.)
+N = 1000,  0.153 0.018 0.013 0.019
+N = 10000, 21.288 4.618 1.965 4.311
 
 
+original
 [1, 2, 3]
 [4, 5, 6]
 [7, 8, 9]
 
+90도 회전: list(map(list, zip(*reversed(arr))))
 
 reversed(arr) -> O(1)
 [7, 8, 9]
@@ -58,7 +55,7 @@ n = 1000
 board = [[0 for _ in range(n)] for _ in range(n)]
 N = len(board)
 
-# 22.879sec, O(N**2)
+# 21.288 sec, O(N**2)
 def rot90_v1(arr):
     N = len(arr)
     new_arr = [[0] * N for _ in range(N)]  # NxN 빈 배열 먼저 만들기
@@ -66,14 +63,10 @@ def rot90_v1(arr):
         for j in range(N):
             new_arr[i][j] = arr[N-1-j][i]
     return new_arr
-
-
             
 # 4.618sec, O(2*N)
 def rot90_v2(arr):
     return list(map(list, zip(*reversed(arr))))
-    # return list(zip(*reversed(arr)))
-    # map(변환시킬 함수, iter되는 무언가(list, tuple))
 
 # 1.965, O(N)
 def rot180(arr):
