@@ -1,3 +1,5 @@
+from my_package.hjtc import swea_tc
+
 N = int(input())
 answer = []
 
@@ -14,4 +16,4 @@ for num in range(1, N+1):
     else:
         answer.append(num)
 
-print(' '.join(answer))
+swea_tc(' '.join(answer))
