@@ -1,66 +1,62 @@
-from pprint import pprint
-
 C, R = map(int, input().split())
 K = int(input())
+
+# 북 동 남 서
+direct_list = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+seat_list = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+
 board = [[0 for _ in range(C)] for _ in range(R)]
 
-direct_list = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-y, x = R - 1, 0
-
 direct = 0
-distance = R
-flag_C = False
-flag_R = True
-flag_F = True
-flag_out = False
+y_idx = R - 1
+x_idx = 0
+board[y_idx][x_idx] = 1
 
-while K > 1:
+seat = [1, 1]
+switch = 0
+cnt = 1
+
+while K > cnt:
+    dy, dx = direct_list[direct]
+    sx, sy = seat_list[direct]
     
-    for i in range(distance - 1):
-        board[y][x] = K
-        dy, dx = direct_list[direct % 4]
-        y += dy
-        x += dx
-        K -= 1
-    if 0 > K:
-        print(K)
-    direct += 1
-    
-    if flag_C:
-        flag_C = False
-        flag_R = True
-        distance = R
-        C -= 1
-    else:
-        flag_C = True
-        flag_R = False
-        distance = C
-        if flag_F:
-            flag_F = False
-        else:
+    if switch%2 == 0:
+        
+        if switch != 2:
             R -= 1
-    if distance == 1:
-        flag_out = True
+        
+        for _ in range(R):
+            cnt += 1
+            y_idx += dy
+            x_idx += dx
+            board[y_idx][x_idx] = cnt
+            seat[0] += sx
+            seat[1] += sy
+            
+            if cnt == K:
+                break
+            
+    else:
+        C -= 1
+        for _ in range(C):
+            cnt += 1
+            y_idx += dy
+            x_idx += dx
+            board[y_idx][x_idx] = cnt
+            seat[0] += sx
+            seat[1] += sy
+            
+            if cnt == K:
+                break
+    
+    if R == 0 or C == 0:
+        answer = 0
         break
+        
+    switch += 1
+    direct = (direct + 1)%4
     
-board[y][x] = K
+else:    
+    answer = ' '.join(map(str, seat))
 
-# pprint(board)
-
-if flag_out:
-    print(0)
-else:
-    print(y, x)
-    
-def print_board(arr):
-    for row in arr:
-        print(row)
-    print()
-    
-# print_board(board)
-'''
-(6, 3)
-(3, 5)
-'''
-    
-    
+print(answer)
