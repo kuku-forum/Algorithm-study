@@ -16,7 +16,6 @@ def bfs(root, board, re_board):
                 if visited[new_node] == False:
                     
                     for chk in re_board[new_node]:
-                        
                         if not visited[chk]:
                             break
                     else:
