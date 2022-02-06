@@ -15,6 +15,8 @@ original
 [4, 5, 6]
 [7, 8, 9]
 
+
+    
 90도 회전: list(map(list, zip(*reversed(arr))))
 
 reversed(arr) -> O(1)
@@ -41,7 +43,6 @@ O(N) + O(N) => O(2N) => O(N)
 [[7, 4, 1],
 [8, 5, 2],
 [9, 6, 3]]
-
 '''
 
 import time
@@ -59,12 +60,13 @@ N = len(board)
 def rot90_v1(arr):
     N = len(arr)
     new_arr = [[0] * N for _ in range(N)]  # NxN 빈 배열 먼저 만들기
-    for i in range(N):
-        for j in range(N):
+    
+    for i in range(N): # N
+        for j in range(N): # N
             new_arr[i][j] = arr[N-1-j][i]
     return new_arr
             
-# 4.618sec, O(2*N)
+# 4.618sec, O(N) + O(N) = O(2*N) -> O(N)
 def rot90_v2(arr):
     return list(map(list, zip(*reversed(arr))))
 
@@ -75,7 +77,6 @@ def rot180(arr):
 # 4.311
 def rot270(arr):
     return list(map(list, zip(*arr)))[::-1]
-
 
 # 10회 실험
 end1, end2, end3, end4, end5 = 0, 0, 0, 0, 0
@@ -98,3 +99,4 @@ for _ in range(10):
     end4 += (time.time() - start4)
     
 print(round(end1/10, 3), round(end2/10, 3), round(end3/10, 3), round(end4/10, 3))
+
