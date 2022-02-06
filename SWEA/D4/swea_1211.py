@@ -1,4 +1,3 @@
-from cgitb import reset
 from my_package.hjtc import swea_tc 
     
 def print_board(arr):
