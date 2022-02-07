@@ -9,7 +9,7 @@ board = []
 for _ in range(N):
     board.append(list(map(int, input().split())))
     
-
+# 방문 하는거 기록
 visited = [[0 for _ in range(N)] for _ in range(N)]
 stair_list = []
 
@@ -136,7 +136,7 @@ def runway_col(root, board):
 
 answer = 0
 
-# row 탐색
+# 1. row 탐색
 for i in range(N):
     if runway_row([i, 0], board):
         answer += 1
@@ -146,7 +146,7 @@ for y, x in stair_list:
     visited[y][x] = 0
 stair_list = []
 
-# col 탐색
+# 2. col 탐색
 for j in range(N):
     if runway_col([0, j], board):
         answer += 1
