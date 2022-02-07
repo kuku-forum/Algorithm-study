@@ -1,124 +1,155 @@
-from collections import defaultdict
-from copy import deepcopy
+'''
+검은색 블록: -1
+무지개 블록: 0
+일반 블록: M
 
-N, M = map(int, input().split())
+인접: |r1 - r2| + |c1 - c2| = 1
+> 동서남북
 
-board_lst = []
+그룹: 
+> 일반 블록 하나가 무조건 필요
+> 일반 블록 모두 같음, 검은색 블록X, 무지개 블록O, 
+> 블록의 개수는 2보다 크거나 같아야
+> 블록 그룹의 기준: 일반블록 최소 행 -> 최소 열
 
-for _ in range(N):
-    board_lst.append(list(map(int, input().split())))
+게임:
+> 그룹찾기: 최대 그룹 -> 최다 무지개 -> 최대 행 -> 최대 열
+> 제거 및 제곱 획득
+> 중력(검은색 제외)
+> 90도 반시계 회전
+> 중력
+'''
 
-direct_lst = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-
-x_dic = defaultdict(list)
-answer = 0
-
-def dfs(board, root):
-    
-    point = [root]
-    color = board[root[0]][root[1]]
-    candi_tmp = []
-    rainbow = 0
-
-    if color == -1 or color == 'x' or color == 0:
-        return
-
-    while point:
-        y, x = point.pop()   
-        for dir in direct_lst:
-            ny = y + dir[0]
-            nx = x + dir[1]
-            if N > ny >= 0 and N > nx >= 0:
-                if board[ny][nx] == 0 or color == board[ny][nx]:
-                    if board[ny][nx] == 0:
-                        rainbow += 1
-                    candi_tmp.append((ny, nx))
-                    point.append((ny, nx))
-                    board[ny][nx] = 'x'
-    else:
-        if len(candi_tmp) >= 2:
-            candi_tmp.sort(key = lambda x: (x[0], x[1]))
-            candidate[color].append((rainbow, candi_tmp[0][0], candi_tmp[0][1]))
-            x_dic[(rainbow, candi_tmp[0][0], candi_tmp[0][1])] = candi_tmp
-    return
+from collections import deque
 
 
-def rotate90(arr):
-    arr2 = list(map(list, zip(*arr)))
-    arr2.reverse()
-    return arr2
+def rot270(arr):
+    return list(map(list, zip(*arr)))[::-1]
+
 
 def gravity(board):
-    for j in range(N):
-        i = N-1
-        while True:
+    N = len(board)
+    
+    for x in range(N):
+        y = N - 1
         
-            if 0 >= i:
-                break
-
-            if board[i][j] == 'x':
-                for y in range(i-1, -1, -1):
-                    if board[y][j] == -1:
-                        i -= 1
+        while y >= 1:
+            if board[y][x] == -2:
+                dy = y - 1
+                
+                while dy >= 0:
+                    
+                    if board[y][x] != -2:
                         break
-
-                    elif board[y][j] == 'x':
-                        continue
+                    
+                    if board[dy][x] == -1:
+                        if dy - 1 >= 0:
+                            y = dy - 1
+                            dy = y - 1
+                        else:
+                            break
+                    
+                    elif board[dy][x] != -2:
+                        board[y][x], board[dy][x] = board[dy][x], -2
+                        break
+                        
                     else:
-                        board[i][j] = board[y][j]
-                        board[y][j] = 'x'
-                        i -= 1
-                else:
-                    i -= 1
-            else:
-                i -= 1
+                        dy -= 1
+            y -= 1
+    return board
 
 
-def make_group():
-    score = 0
+def bfs(board):
+    global answer
+    final_group = []
+    pre_rainbow, pre_block_cnt, fin_y, fin_x = -1, -1, -1, -1
+    
     for i in range(N):
         for j in range(N):
-            dfs(deepcopy(board_lst), (i, j))
+            change = False
+            
+            if board[i][j] > 0:
+                
+                color = board[i][j]
+                que = deque([(i, j)])
+                visited[i][j] = 1
+                
+                std_y, std_x = 0xffff, 0xffff
+                rainbow, block_cnt = 0, 1
+                
+                tmp_group = [(i, j)]
+                
+                while que:
+                    y, x = que.popleft()
+                
+                    if board[y][x] > 0 and (std_y, std_x) > (y, x):
+                        std_y, std_x = y, x
+                            
+                    for dy, dx in direct_list:
+                        ny = y + dy
+                        nx = x + dx
+                        
+                        if N > ny >= 0 and N > nx >= 0 and board[ny][nx]  >= 0 and visited[ny][nx] == 0:
+                            if board[ny][nx] == 0 or board[ny][nx] == color:
+                                que.append((ny, nx))
+                                visited[ny][nx] = 1
+                                tmp_group.append((ny, nx))
+                                block_cnt += 1
+                                
+                                if board[ny][nx] == 0:
+                                    rainbow += 1
+                  
+                for ry, rx in tmp_group:
+                    visited[ry][rx] = 0
+                
+                if block_cnt > 1:
+                    
+                    if not final_group:
+                        change = True
+                    
+                    elif block_cnt > pre_block_cnt:
+                        change = True
+                        
+                    elif block_cnt == pre_block_cnt:
+                        if rainbow > pre_rainbow:
+                            change = True
+                            
+                        elif rainbow == pre_rainbow:
+                            if (std_y, std_x) > (fin_y, fin_x):
+                                change = True
+                                
+                if change:
+                    final_group = tmp_group
+                    pre_block_cnt = block_cnt
+                    pre_rainbow = rainbow
+                    fin_y = std_y
+                    fin_x = std_x    
+                    
+    if not final_group:
+        return True
+    else:
+        for ry, rx in final_group:
+            board[ry][rx] = -2
+            
+        answer += len(final_group)**2
+        return False
 
-    for candi in reversed(candidate):
-        if not candi:
-            continue
-        candi.sort(key=lambda x: (-x[0], -x[1], -x[2]))
-        score += len(x_dic[candi[0]])**2
-        break
-    if not candi:
-        return score
+    
+answer = 0
+direct_list = [(0, -1), (0, 1), (-1, 0), (1, 0)]
 
-    for y, x in x_dic[candi[0]]:
-        board_lst[y][x] = 'x'
+N, M = map(int, input().split())
+board = []
+visited = [[0 for _ in range(N)] for _ in range(N)]
 
-    return score
-
+for _ in range(N):
+    board.append(list(map(int, input().split())))
 
 while True:
-    candidate = [[] for _ in range(M+1)]
-
-    score = make_group()
-    # print('#1', board_lst)
-    # print(score)
-    answer += score
-
-
-    gravity(board_lst)
-    # print('#2', board_lst)
-    board_lst = rotate90(board_lst)
-    # print('#3', board_lst)
-    gravity(board_lst)
-    # print('#4', board_lst)
-    # print()
-
-    if score == 0:
+    if bfs(board):        
         break
+    board = gravity(board)
+    board = rot270(board)
+    board = gravity(board)
+
 print(answer)
-
-
-
-'''
-
-
-'''

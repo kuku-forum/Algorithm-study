@@ -23,6 +23,7 @@ K년 후 나무의 개수
 
 from collections import defaultdict, deque
 
+direct_list = [(-1, 0), (1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
 N, M, K = map(int, input().split())
 
 A = []
@@ -34,33 +35,51 @@ for _ in range(N):
 
 tree_dic = defaultdict(deque)
 
+# for _ in range(M):
+#     x, y, z = map(int, input().split())
+#     tree_dic[(x - 1, y - 1)].append(z)
+    
+# for x, y in tree_dic:
+#     tree_board[x][y] = deque(sorted(tree_dic[(x, y)], reverse=True))
+    
+# def sping_summer():
+#     for x in range(N):
+#         for y in range(N):
+#             tree_num = len(tree_board[x][y])
+#             death_tree = 0
+            
+#             for _ in range(tree_num):
+#                 age = tree_board[x][y].pop()
+#                 if food[x][y] >= age:
+#                     food[x][y] -= age
+#                     tree_board[x][y].appendleft(age + 1)        
+#                 else:
+#                     death_tree += age//2
+#             food[x][y] += death_tree
+
+tree_board = [[[] for _ in range(N)] for _ in range(N)]
+
 for _ in range(M):
     x, y, z = map(int, input().split())
-    tree_dic[(x - 1, y - 1)].append(z)
+    tree_board[x - 1][y - 1].append(z)
+        
     
-for x, y in tree_dic:
-    tree_board[x][y] = deque(sorted(tree_dic[(x, y)], reverse=True))
-    
-direct_list = [(-1, 0), (1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
-
-
 def sping_summer():
     for x in range(N):
         for y in range(N):
-            tree_num = len(tree_board[x][y])
+            aged = []
             death_tree = 0
-            
-            for _ in range(tree_num):
-                age = tree_board[x][y].pop()
+            for age in sorted(tree_board[x][y]):
                 if food[x][y] >= age:
                     food[x][y] -= age
-                    tree_board[x][y].appendleft(age + 1)        
+                    aged.append(age + 1)
                 else:
                     death_tree += age//2
             food[x][y] += death_tree
+            tree_board[x][y] = aged
         
-
-def fall():
+        
+def fall_winter():
     for x in range(N):
         for y in range(N):
             for age in tree_board[x][y]:
@@ -72,17 +91,13 @@ def fall():
                         
                         if N > nx >= 0 and N > ny >= 0:
                             tree_board[nx][ny].append(1)
-                        
-def winter():
-    for x in range(N):
-        for y in range(N):
             food[x][y] += A[x][y]
+                        
             
 
 for k in range(K):
     sping_summer()
-    fall()
-    winter()
+    fall_winter()
 
 answer = 0
 

@@ -93,3 +93,27 @@ print_board(arotate90(board))
 [3, 6, 9]
 
 '''
+
+'''
+# 무한 루프
+a = [1, 2, 3]
+for i in a:
+    print(i)
+    a.append(4)
+    
+# RuntimeError: dictionary changed size during iteration
+# dict 사이즈 에러
+b = {1:2, 2:4, 3: 5}
+for key in b.keys():
+    print(b[key])
+    b[4] = 6
+    
+# que 사이즈 에러
+# RuntimeError: deque mutated during iteration
+from collections import deque
+
+que = deque([1, 2, 3, 4])
+for q in que:
+    print(q)
+    que.append(5)
+'''
