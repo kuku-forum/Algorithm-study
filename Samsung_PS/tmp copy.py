@@ -14,7 +14,7 @@ while True:
         j, i = cleaner[direction]
         nj, ni = r + j, c + i
         # 회전 했을 때, 0이면 cnt를 1증가 시키고 위치를 이동하고 다시 while문을 실행
-        if 0 < nj < N - 1 and 0 < ni < M - 1 and not arr[nj][ni]:
+        if not arr[nj][ni]:
             cnt += 1
             r, c = nj, ni
             arr[r][c] = -1
@@ -22,15 +22,9 @@ while True:
     # 회전을 다해도 0이 없으면 후진 하는데, 벽이면 while을 나오고 아니면 이동 후 while문 실행
     else:
         j, i = back_dir[direction]
-        nj, ni = r + j, c + i
-        # print(nj, ni, arr[nj][ni])
-        # if nj == 1 and ni == 0:
-        #     break
-        if 0 < ni < M - 1 and 0 < nj < N - 1:
-            if arr[nj][ni] == 1:
-                break
-            else:
-                r, c = nj, ni
-        else:
+        
+        if arr[r + j][c + i] == 1:
             break
+        else:
+            r, c = r + j, c + i
 print(cnt)
