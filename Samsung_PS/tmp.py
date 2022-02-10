@@ -1,4 +1,4 @@
-a = (3, 1)
-b = (2, 2)
-
-print(a>b)
+if [2, 3] > [2, 1]:
+    print(1)
+else:
+    print(2)

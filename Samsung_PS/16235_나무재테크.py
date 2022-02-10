@@ -63,23 +63,32 @@ for _ in range(M):
     x, y, z = map(int, input().split())
     tree_board[x - 1][y - 1].append(z)
         
-    
+
 def sping_summer():
+    # 나무 전체를 다 탐색
     for x in range(N):
         for y in range(N):
             aged = []
             death_tree = 0
+            # 나무가 있으면 정렬해서 작은것부터 순회
             for age in sorted(tree_board[x][y]):
+                # 양분 먹고 나이 올림, 양분 떨어지면 죽은 것으로 처리
+                # aged라는 리스트 만들어서 한살 더 먹은 나무 리스트 삽입
                 if food[x][y] >= age:
                     food[x][y] -= age
                     aged.append(age + 1)
                 else:
                     death_tree += age//2
+                    
+            # 죽어서 만들어진 양분 업데이트
+            # 기존 board에 변경
             food[x][y] += death_tree
             tree_board[x][y] = aged
         
-        
+
+
 def fall_winter():
+    # board 전체 다 탐색해서, 5로 나눠질 경우 주변에 1살 나무 추가
     for x in range(N):
         for y in range(N):
             for age in tree_board[x][y]:
@@ -91,6 +100,8 @@ def fall_winter():
                         
                         if N > nx >= 0 and N > ny >= 0:
                             tree_board[nx][ny].append(1)
+            
+            # 모든 board를 돌때 A에 있는 양분 추가
             food[x][y] += A[x][y]
                         
             
@@ -108,7 +119,7 @@ for x in range(N):
 print(answer)
 
 
-'''
+
 tree_dic = defaultdict(deque)
 
 for _ in range(M):
@@ -121,6 +132,7 @@ direct_list = [(-1, 0), (1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1,
 for x, y in tree_dic:
     tree_dic[(x, y)] = deque(sorted(tree_dic[(x, y)], reverse=True))
     
+# dictionary -> que -> list
 def sping_summer():
     tree_keys = list(tree_dic.keys())
     # for x, y in tree_keys:
@@ -177,4 +189,10 @@ for x, y in tree_dic:
     answer += len(tree_dic[(x, y)])
     
 print(answer)
-'''
+
+
+
+for i in dict.keys():
+    print(dict[i])
+    dict[3] = 4
+    
