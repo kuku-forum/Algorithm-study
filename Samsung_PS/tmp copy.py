@@ -7,12 +7,15 @@ N, M = map(int, input().split())
 r, c, direction = map(int, input().split())
 arr = [list(map(int, input().split())) for _ in range(N)]
 arr[r][c] = -1
+
 while True:
+    
     # 반시계 방향으로 회전하며 청소가 안된 곳(0)이 있는지 조사를 진행한다.
     for _ in range(4):
         direction = (direction - 1) % 4
         j, i = cleaner[direction]
         nj, ni = r + j, c + i
+        
         # 회전 했을 때, 0이면 cnt를 1증가 시키고 위치를 이동하고 다시 while문을 실행
         if not arr[nj][ni]:
             cnt += 1

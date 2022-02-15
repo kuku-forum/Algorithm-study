@@ -26,11 +26,21 @@ def gen_combi(arr, n):
         elem = arr[i]
         for C in gen_combi(arr[i + 1:], n - 1):
             result.append([elem] + C)
+            
     return result
 
 # [[1, 2], [1, 3], [2, 3]]
 print(gen_combi(store_lst, M))
+'''
+[1,2,3,4,5,6,7]
 
+n= 3
+[[1,2,3], [1,2,4]]
+-> combi3을 다 뽑아내고 그다음 진행하는거
+-> 복잡도가 높음
+
+->[1,2,3]
+'''
 
 def gen_permu(arr, n):
     result = []
@@ -55,12 +65,14 @@ def gen_combi_replace(arr, n):
 
     for i in range(0, len(arr)):
         elem = arr[i]
-        for C in gen_product(arr[i:], n - 1):
+        for C in gen_combi_replace(arr[i:], n - 1):
             result.append([elem] + C)
     return result
 
 print(gen_combi_replace(store_lst, M))
-# [[1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]]
+# [ [1, 2], [1, 3],  [2, 3], [3, 3]] -> combination
+# -> combi replacement
+# [[1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]] ->
 
 
 def print_board(arr):

@@ -1,5 +1,5 @@
 '''
-100/1025
+108ms, 100/1025
 
 조건
 > 0 북, 1 동, 2 남, 3 서
@@ -23,6 +23,7 @@ for _ in range(N):
 direct_list = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 board[r][c] = 2
 answer = 1
+
     
 def clean(r, c, d, answer):
     y, x = r, c
