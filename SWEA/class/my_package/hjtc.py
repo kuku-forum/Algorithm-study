@@ -3,7 +3,7 @@ import os
 from collections import deque
 
 root = os.path.dirname(os.path.realpath(__file__))
-sys.stdin = open(root + '\\testcase\\input.txt', 'r')
+sys.stdin = open(root + '\\testcase\\input.txt', 'r', encoding='UTF-8')
 _answer_que = deque(open(root + '\\testcase\\output.txt', 'r').readlines())
 
 def swea_tc(_answer_yours):
