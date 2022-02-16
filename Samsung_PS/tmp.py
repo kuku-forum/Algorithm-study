@@ -1,5 +1,10 @@
-a = [[]]
+N = 100
 
+cnt = 1
+x = 3
 
-
-print(len(a[0]))
+while N >= x*cnt:
+        
+    x_idx = x*cnt - 1
+    print(x, x_idx)
+    cnt += 1
