@@ -1,63 +1,76 @@
-from collections import defaultdict
+'''
+> 물고기를 dict에 넣고, 삭제시 del
 
-board_lst = defaultdict(list)
-pos_lst = defaultdict(list)
-answer = 0
+> 물고기 이동 함수
+> ↑, ↖, ←, ↙, ↓, ↘, →, ↗
+> 시계방향으로 list 만들고 하나씩 증가 시키면서 전방 탐색
+> 이동 가능할 경우 서로 위치 바꾸기
+
+
+> 상어 이동
+ DFS로 구성
+ 1. 방향에 따라 접근 가능한 board위치 list로 추출
+ 2. list가 없을경우 return
+ 3. 있을경우 해당 물고기를 먹고 재귀 dfs, deepcopy로 진행
+'''
+
+def print_board(arr):
+    for row in arr:
+        print(row)
+    print()
+
+
+from copy import deepcopy
+from re import L
+
+
+board = []
+fish_dic = {}
 
 for i in range(4):
-    info = list(map(int, input().split()))
-    for j in range(0, len(info), 2):
-        if i == 0 and j == 0:
-            answer += info[j]
-            board_lst['M'] = [i, j // 2, info[j+1]]
-            pos_lst[(i, j//2)] = ['M', info[j+1]]
+    arr = list(map(int, input().split()))
+    row = []
+    for j in range(0, 7, 2):
+        row.append([arr[j], arr[j + 1] - 1])
+        fish_dic[arr[j]] = (i, j//2, arr[j + 1] - 1)
+    board.append(row)
+    
+
+
+
+direction_list = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1)]
+
+
+def fish_wave():
+    for fish in range(1, 17):
+        
+        if fish not in fish_dic:
             continue
-
-        board_lst[info[j]] = [i, j//2, info[j+1]]
-        pos_lst[(i, j // 2)] = [info[j], info[j + 1]]
-
-print(board_lst)
-print(pos_lst)
-direct_lst = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1)]
-
-
-def move_fish(board):
-
-    for i in range(1, 17):
-        if not board[i]:
-            continue
-
-        y = board[i][0]
-        x = board[i][1]
-        # print(board[i])
-        direct = direct_lst[board[i][2]-1]
-
-        ny = y + direct[0]
-        nx = x + direct[1]
-
-        if 4 > ny >= 0 and 4 > nx >= 0:
-            fish_name_1, fish_direct_1 = pos_lst[(y, x)]
-
-            # fish_name_2 = pos_lst[(ny, nx)][0]
-
-            if fish_name_1 == 'M':
-                for _ in range(8):
-                    fish_direct_1 = (fish_direct_1+1)//8
-                    run_direct = direct_lst[fish_direct_1]
-
-                    ny = y + run_direct[0]
-                    nx = x + run_direct[1]
-
-                    if 4 > ny >= 0 and 4 > nx >= 0:
-                        if not pos_lst[(ny, nx)]:
-                            fish_name_2, fish_pos_2 = pos_lst[(ny, nx)]
-
-                            pos_lst[(ny, nx)] = [fish_name_1, fish_direct_1]
-                            pos_lst[(y, x)] = []
-
-                            board[fish_name_1] = [ny, nx, fish_direct_1]
-                            board[fish_name_2] = []
-
+        r, c, d = fish_dic[fish]
+        print(fish, r, c, d)
+        
+        for i in range(8):
+            nd = (d + i)%8
+            dr, dc = direction_list[nd]
+            nr, nc = r + dr, c + dc
+            
+            if 4 > nr >= 0 and 4 > nc >= 0 and board[nr][nc][0] > 0:
+                
+                board[nr][nc], board[r][c] = board[r][c], board[nr][nc]
+                fish_dic[fish] = (nr, nc, nd)    
+                break
+        
+        print_board(board)
+            
+            
+def shark_wave():
     return
 
-move_fish((board_lst))
+del fish_dic[board[0][0][0]]
+answer, board[0][0][0] = board[0][0][0], 0
+
+print(fish_dic)
+print_board(board)
+
+fish_wave()
+print_board(board)
