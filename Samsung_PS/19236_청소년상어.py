@@ -13,7 +13,7 @@
  2. list가 없을경우 return
  3. 있을경우 해당 물고기를 먹고 재귀 dfs, deepcopy로 진행
 '''
-
+from pprint import pprint
 def print_board(arr):
     for row in arr:
         print(row)
@@ -21,8 +21,6 @@ def print_board(arr):
 
 
 from copy import deepcopy
-from re import L
-
 
 board = []
 fish_dic = {}
@@ -34,43 +32,85 @@ for i in range(4):
         row.append([arr[j], arr[j + 1] - 1])
         fish_dic[arr[j]] = (i, j//2, arr[j + 1] - 1)
     board.append(row)
-    
-
-
 
 direction_list = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (1, 1), (0, 1), (-1, 1)]
 
 
-def fish_wave():
+def fish_wave(tmp_fish_dic, tmp_board, sr, sc):
+    
     for fish in range(1, 17):
         
-        if fish not in fish_dic:
+        if fish not in tmp_fish_dic:
             continue
-        r, c, d = fish_dic[fish]
-        print(fish, r, c, d)
+        
+        r, c, d = tmp_fish_dic[fish]
         
         for i in range(8):
+            
             nd = (d + i)%8
             dr, dc = direction_list[nd]
             nr, nc = r + dr, c + dc
             
-            if 4 > nr >= 0 and 4 > nc >= 0 and board[nr][nc][0] > 0:
+            if 4 > nr >= 0 and 4 > nc >= 0 and (nr, nc) != (sr, sc):
                 
-                board[nr][nc], board[r][c] = board[r][c], board[nr][nc]
-                fish_dic[fish] = (nr, nc, nd)    
-                break
+                if tmp_board[nr][nc][0] > 0:
+                    
+                    another_fish = tmp_board[nr][nc][0]
+                    _, _, ad = tmp_fish_dic[another_fish]
+                
+                    tmp_board[nr][nc], tmp_board[r][c] = tmp_board[r][c], tmp_board[nr][nc]
+                    tmp_board[nr][nc][1] = nd
+                    
+                    tmp_fish_dic[fish] = (nr, nc, nd)
+                    tmp_fish_dic[another_fish] = (r, c, ad)
+                    break
+                
+                elif tmp_board[nr][nc][0] == 0:
+                    tmp_board[nr][nc], tmp_board[r][c] = tmp_board[r][c], tmp_board[nr][nc]
+                    tmp_board[nr][nc][1] = nd
+                    tmp_fish_dic[fish] = (nr, nc, nd)
+                    break
+                    
+            
+    return tmp_board, tmp_fish_dic
         
-        print_board(board)
-            
-            
-def shark_wave():
+        
+def shark_wave(d_fish_dic, d_board, root, total_score):
+    
+    global answer
+    sr, sc = root
+    
+    rm_fish = d_board[sr][sc][0]
+    sd = d_board[sr][sc][1]
+    
+    total_score += rm_fish
+    del d_fish_dic[rm_fish]
+    dr, dc = direction_list[sd]
+    
+    d_board[sr][sc] = [0, 0]
+    fish_pos = []
+    
+    n_board, n_fish_dic = fish_wave(deepcopy(d_fish_dic), deepcopy(d_board), sr, sc)
+    sr += dr
+    sc += dc
+    
+    while 4 > sr >= 0 and 4 > sc >= 0:
+        
+        if n_board[sr][sc][0] > 0:
+            fish_pos.append([sr, sc])
+        sr += dr
+        sc += dc
+    
+    if not fish_pos:
+        answer = max(answer, total_score)
+        return
+
+    for nr, nc in fish_pos:
+        shark_wave(deepcopy(n_fish_dic), deepcopy(n_board), (nr, nc), total_score)
+                
     return
 
-del fish_dic[board[0][0][0]]
-answer, board[0][0][0] = board[0][0][0], 0
+answer = score = 0
 
-print(fish_dic)
-print_board(board)
-
-fish_wave()
-print_board(board)
+shark_wave(deepcopy(fish_dic), deepcopy(board), (0, 0), score)
+print(answer)
