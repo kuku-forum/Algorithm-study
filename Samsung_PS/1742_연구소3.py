@@ -47,6 +47,9 @@ def bfs(board, act_virus, rm_room):
     total_time = 0
     
     while que:
+        # cnt += 1
+        # for _ in range(len(que)):
+            
         y, x = que.popleft()
 
         # 제거할 방이 0이 되었을 경우 반환
@@ -66,8 +69,8 @@ def bfs(board, act_virus, rm_room):
                 # 제거해야할 방 갯수 줄임
                 if visited[ny][nx] == -1:
                     visited[ny][nx] = visited[y][x] + 1
-                    total_time = visited[ny][nx]
                     que.append([ny, nx])
+                    total_time = visited[ny][nx]
                     rm_room -= 1
                 
                 # 비활성 바이러스일 경우
