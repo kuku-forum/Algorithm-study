@@ -1,69 +1,61 @@
+from itertools import combinations_with_replacement
 
-# 보드의 idx 값으로 저장
-graph = [[1], [2], [3], [4], [5], [6, 21], [7], [8], [9], [10], [11, 25], [12], [13], [14], [15], [16, 27], [17], [18], [19], [20], 
-         [32], 
-         [22], [23], [24], [30], 
-         [26], [24], 
-         [28], [29], [24], 
-         [31], [20], [32]]
-
-# 획득할 점수
-#           1, 2, 3, 4, 5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32      
-score = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 13, 16, 19, 25, 22, 24, 28, 27, 26, 30, 35, 0]
-
-# 다이스 리스트를 받아옴
-dice = list(map(int, input().split()))
-answer = 0
-
-def backtracking(loc, result, horse, test):
-    global answer
+def solution(n, info):
+    answer = [-1]
+    info.reverse()
     
-    # 10번째 주사위면 반환
-    if loc >= 10:
-        answer = max(answer, result)
-        return
+    max_diff = -1
     
-    # 4개의 말을 굴림
-    for i in range(4):
+    appech_score = 0
+    ryan_score = 0
+    
+    ryan_info = [0 for _ in range(11)]
+    score_list = [i for i in range(11)]
+    a= [0, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0]
+    a.reverse()
+    for combi_re in combinations_with_replacement(score_list, n):
+        for num in combi_re:
+            ryan_info[num] += 1
         
-        # 말의 현재 위치
-        x = horse[i]
         
-        # 말의 현재 위치를 보드에 나타냈을때 2 이상인 경우 다른 지역으로 가므로, 2번째 위치를 반환
-        # 아닐경우 앞의 위치를 반환
-        if len(graph[x]) == 2:
-            x = graph[x][1]
-        else:
-            x = graph[x][0]
+        for score in range(11):
+            # if ryan_info == a:
+            #     print(score, info[score], ryan_info[score])
+                
+            if info[score] >= ryan_info[score]:
+                if info[score] > 0:
+                    appech_score += score
+            else:
+                if ryan_info[0] > 0:
+                    ryan_score += score
+           
+        cur_diff = ryan_score - appech_score
+        
+        # if ryan_info == a:
+        #     print(info)
+        #     print(ryan_info)
+        #     print(ryan_score, appech_score)
+        #     print()
+        
+        if  cur_diff > max_diff:
+            print(ryan_info)
+            max_diff = cur_diff
+            answer = ryan_info
             
-        # grap에 값을 넣음 으로써 주사위 수만큼 x 값을 계속 변경시켜줌
-        # 현재위치에서 주사위칸의 위치만큼 전지
-        for _ in range(1, dice[loc]):
-            # print('#1', x)
-            x = graph[x][0]
-            # print('#2', x)
-            
-        # 현재 위치가 32이거나, 32보다 작고 말이 중복되지 않으면 싫애
-        if x == 32 or (x < 32 and x not in horse):
-            # 선택된 말의 위치를 백업
-            before = horse[i]
-            # 이동할 위치를 말의 위치로 설정
-            horse[i] = x
-            
-            # 이동할 위치만큼 점수를 더해서 다시 재귀
-            backtracking(loc + 1, result+score[x],horse, test)
-            
-            # 백업된 말의 위치를 다시 재설절
-            horse[i] = before
-            
-backtracking(0, 0, [0,0,0,0], [])
-print(answer)
+        ryan_info = [0 for _ in range(11)]
+        appech_score = 0
+        ryan_score = 0
+    
+    return answer[::-1]
 
-# graph = [[1], [2], [3], [4], [5], [6, 21], [7], [8], [9], [10], [11, 25], [12], [13], [14], [15], [16, 27], [17], [18], [19], [20], 
-#          [32], 
-#          [22], [23], [24], [30], 
-#          [26], [24], 
-#          [28], [29], [24], 
-#          [31], [20], [32]]
+n = 5
+info = [2,1,1,1,0,0,0,0,0,0,0]
+print(solution(n, info))
 
-# print(len(graph))
+'''
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+[0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2]
+
+[0, 0, 0, 0, 0, 0, 1, 0, 2, 2, 0]
+
+'''
