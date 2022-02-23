@@ -3,7 +3,7 @@ for t in range(1, 11):
     num_list = list(reversed(nums))
     
     answer = []
-    print(num_list)
+    
     while num_list:
         num = num_list.pop()
         if not answer:
