@@ -12,13 +12,13 @@ def dfs(N, board, start):
         print()
         if board[r][c] == 3:
             return 1
+        visited[r][c] = 1
         
         for dr, dc in direction_list:
             nr = r + dr
             nc = c + dc
             
             if N > nr >= 0 and N > nc >= 0 and visited[nr][nc] == 0 and board[nr][nc] != 1:
-                visited[nr][nc] = 1
                 stack.append([nr, nc])
                 
     return 0
