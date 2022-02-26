@@ -1,49 +1,57 @@
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.02ms, 10.4MB)
+테스트 2 〉	통과 (0.02ms, 10.4MB)
+테스트 3 〉	통과 (0.02ms, 10.5MB)
+테스트 4 〉	통과 (0.56ms, 10.3MB)
+테스트 5 〉	통과 (0.02ms, 10.4MB)
+테스트 6 〉	통과 (0.02ms, 10.5MB)
+테스트 7 〉	통과 (0.06ms, 10.3MB)
+테스트 8 〉	통과 (0.02ms, 10.4MB)
+테스트 9 〉	통과 (0.06ms, 10.3MB)
+테스트 10 〉	통과 (0.10ms, 10.4MB)
+테스트 11 〉	통과 (0.16ms, 10.4MB)
+테스트 12 〉	통과 (0.01ms, 10.3MB)
+테스트 13 〉	통과 (0.04ms, 10.3MB)
+'''
 from collections import defaultdict
 
-def find_sup(graph, name):
-    name.append(graph[name[-1]])
-    # print(name)
-    if name[-1] == "center":
-        return name
+def solution(str1, str2):
     
-    return find_sup(graph, name)
+    dic_s1 = defaultdict(int)
+    dic_s2 = defaultdict(int)
     
+    str1 = str1.lower()
+    str2 = str2.lower()
     
-def solution(enroll, referral, seller, amount):
+    intersection = 0
+    union = 0
     
-    answer = []
-    graph_dic = defaultdict(str)
-    profit_dic = defaultdict(int)
+    for start in range(0, len(str1)-1):
+        word1 = str1[start:start+2]
+        if word1.isalpha() and len(word1) == 2:
+            dic_s1[word1] += 1
     
-    for enr, ref in zip(enroll, referral):
-        if ref == "-":
-            graph_dic[enr] = "center"
-        else:
-            graph_dic[enr] = ref
+    for start in range(0, len(str2)-1):
+        word2 = str2[start:start+2]
+        if word2.isalpha() and len(word2) == 2:
+            dic_s2[word2] += 1
+            
+    print(dic_s1)
+    print(dic_s2)
+    if not dic_s1 and not dic_s2:
+        return 65536
+    
+    '''
+    합집합 = s1 + s2 - 교집합
+    '''
+    for key_1 in dic_s1.keys():
+        if key_1 in dic_s2:
+            intersection += min(dic_s1[key_1], dic_s2[key_1])    
+        union += dic_s1[key_1]
         
-        profit_dic[enr] = 0
+    for key_2 in dic_s2.keys():
+        union += dic_s2[key_2]
+    union -= intersection
     
-    print(graph_dic)
-    for human, sale in zip(seller, amount):
-        network = find_sup(graph_dic, [human])
-        profit = sale*100
-        
-        for node in network:
-            repayment = int(profit*0.1)
-            # repayment = profit//10
-            profit_dic[node] += profit - repayment
-            profit = repayment
-    
-    
-    del profit_dic['center']
-    
-    return [cost for cost in profit_dic.values()]
-
-
-a = ["john"]
-b = ["-"]
-c = ["john"]
-d = [10]
-
-a = solution(a, b, c, d)
-print(a)
+    return int(intersection/union*65536)
