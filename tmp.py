@@ -1,8 +1,12 @@
-def func():
-    a = N + 1
-    print(a)
-    return
+a = [[1,2,3],
+     [1,2,3],
+     [1,2,3],]
 
-N = 2
-func()
-print(N)
+b = [[1,2,3],
+     [1,2,3],
+     [1,2,1],]
+
+if a == b:
+    print(1)
+else:
+    print(2)
