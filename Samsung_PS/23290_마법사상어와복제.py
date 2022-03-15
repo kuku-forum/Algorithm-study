@@ -11,14 +11,8 @@
 3. 물고기 냄새(2턴) 삭제
 4. 처음 물고기 복제
 '''
-from re import L
 
 from copy import deepcopy
-
-def print_board(arr):
-    for row in arr:
-        print(row)
-    print()
     
 def permu_with_repet():
     arr = []
@@ -29,21 +23,15 @@ def permu_with_repet():
                 arr.append([i, j, k])                
     return arr
 
-shark_dic = permu_with_repet()
-fish_dir = [(0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)]
-shark_dir = [(-1, 0), (0, -1), (1, 0), (0, 1)]
 
-scent = [[0 for _ in range(4)] for _ in range(4)]
+
+
 def scent_down():
     for r in range(4):
         for c in range(4):
             if scent[r][c] > 0:
                 scent[r][c] -= 1
-
-'''
-←, ↖, ↑, ↗, →, ↘, ↓, ↙
-0,  1, 2, 3, 4,  5,  6, 7
-'''
+                
 
 def fish_move(board, cur_pos):
     n_board = [[[] for _ in range(4)] for _ in range(4)]
@@ -62,11 +50,9 @@ def fish_move(board, cur_pos):
                         nc = c + dc
                         
                         if 4 > nr >= 0 and 4 > nc >= 0 and scent[nr][nc] == 0 and (nr, nc) != cur_pos:
-                            # print(d_fish, nd_fish)
                             n_board[nr][nc].append(nd_fish)
                             break
                     else:
-                        # print('no')
                         tmp.append(d_fish)
                 
                 n_board[r][c].extend(tmp)
@@ -85,10 +71,6 @@ def shark_move(board, cur_pos):
             dr, dc = shark_dir[step]
             r += dr
             c += dc
-            # if 4 > r >= 0 and 4 > c >= 0 and (r, c) not in visited:
-            #     visited.append((r, c))
-            #     if (r, c) != cur_pos:
-            #         cnt += len(board[r][c])
                     
             if 4 > r >= 0 and 4 > c >= 0:
                 if (r, c) not in visited:
@@ -118,6 +100,11 @@ def shark_move(board, cur_pos):
 M, S = map(int, input().split())
 board = [[[] for _ in range(4)] for _ in range(4)]
 
+shark_dic = permu_with_repet()
+fish_dir = [(0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)]
+shark_dir = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+scent = [[0 for _ in range(4)] for _ in range(4)]
+
 for _ in range(M):
     i, j, d = map(int, input().split())
     board[i-1][j-1].append(d-1)
@@ -126,34 +113,17 @@ si, sj = map(int, input().split())
 shark_pos = (si-1, sj-1)
 
 for _ in range(S):
-    # print('1. init_board')
-    # print_board(board)
-    copy_fish = deepcopy(board)
-
-    board = fish_move(board, shark_pos)
-    # print('2. fish_move')
-    # print_board(board)
-
-    board, cur_pos = shark_move(board, shark_pos)
-    # print('3. shark_move', shark_pos, cur_pos)
-    # print_board(board)
     
-    # print('scent_board')
-    # print_board(scent)
-
+    copy_fish = deepcopy(board)
+    board = fish_move(board, shark_pos)
+    board, cur_pos = shark_move(board, shark_pos)
+    
     for r in range(4):
         for c in range(4):
             board[r][c].extend(copy_fish[r][c])
-    
-    # print('4. fish_copy')
-    # print_board(board)
-    
+            
     shark_pos = cur_pos
-    # print('shark_pos', shark_pos)
-    # print()
-    # print()
     
-# print_board(board)
 answer = 0
 
 for i in range(4):
