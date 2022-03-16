@@ -31,6 +31,5 @@ for t in range(1, int(input()) + 1):
                 right[p] = c
                
     pre_order(1)
-    
     print(f'#{t}', *answer)
     
