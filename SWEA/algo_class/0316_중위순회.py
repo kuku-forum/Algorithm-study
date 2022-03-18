@@ -5,11 +5,11 @@ def in_order(n):
         return
     in_order(left[n])
     answer.append(n)
-    visited[n] = 1
+    # visited[n] = 1
     
     in_order(right[n])
-    if visited[n] == 0:
-        answer.append(n)
+    # if visited[n] == 0:
+    #     answer.append(n)
 
 for t in range(1, 11):
     N = int(input())
