@@ -14,7 +14,6 @@ def dfs(root, visited, used, i):
     
     if nr == sr and nc == sc and used > 1:
         answer = max(answer, used)
-        # print(visited)
         return
         
     if N > nr >= 0 and N > nc >= 0 and board[nr][nc] not in visited:
@@ -44,5 +43,3 @@ for t in range(1, int(input()) + 1):
             dfs((sr, sc), [board[sr][sc]], 1, 0)
         
     print(f'#{t} {answer}')
-    # if t == 2:
-    #     break
