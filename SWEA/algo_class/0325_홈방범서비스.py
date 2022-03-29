@@ -1,7 +1,6 @@
 from my_package.hjtc import swea_tc
 
 
-
 def dfs(service_lst):
     global answer
     
@@ -28,17 +27,21 @@ for t in range(1, int(input()) + 1):
     board = [list(map(int, input().split())) for _ in range(N)]
     directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     service_lst = [(0, 0)]
+    prev = 0
     
-    for K in range(M+3):
-        
-        for i in range(len(service_lst)):
-            nr, nc = service_lst[i]
+    for K in range(1, N+2):
+    
+        cost = K*K + (K-1)*(K-1)
+        tmp = []
+        for i in range(1, cost-prev+1):
+            nr, nc = service_lst[-i]
             
             for dr, dc in directions:
-                service_lst.append((nr + dr, nc + dc))
+                if (nr+dr, nc+dc) not in service_lst and (nr+dr, nc+dc) not in tmp:
+                    tmp.append((nr + dr, nc + dc))
         
-        # print(K, len(set(service_lst)), set(service_lst))
-        dfs(set(service_lst))
+        prev = cost
+        service_lst.extend(tmp)
+        dfs(service_lst)
     
     print(f'#{t} {answer}')
-    # break
