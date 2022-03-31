@@ -1,53 +1,38 @@
+# from my_package.hjtc import swea_tc # as print
 
-
-def dfs(i, num3, length):
-    if i == length:
+def dfs(r, total_percent):
+    global max_percent
+    # # 1번 가지치기: 재귀를 통해 total_percent가 0 일경우
+    # if total_percent == 0:
+    #     return
+    
+    if max_percent > total_percent:
         return
     
-    if num3[i]=='0':
-        num3_list.append(int(num3[:i]+'1'+num3[i+1:],3))
-        num3_list.append(int(num3[:i]+'2'+num3[i+1:],3))
-        
-    elif num3[i]=='1':
-        if i != 0:
-            num3_list.append(int(num3[:i]+'0'+num3[i+1:],3))
-        num3_list.append(int(num3[:i]+'2'+num3[i+1:],3))
-    else:
-        
-        if i!= 0:
-            num3_list.append(int(num3[:i]+'0'+num3[i+1:],3))
-        num3_list.append(int(num3[:i]+'1'+num3[i+1:],3))
-        
-    dfs(i+1, num3, length)
-
-T = int(input())
-for tc in range(1, T+1):
-    num2 = input()
-    length2 = len(num2)
-    num2 = int(num2,2)
-    num3 = input()
-    length = len(num3)
-    num3_list = []
+    if r == N:
+        max_percent = total_percent
+        return
     
-    print(num2, type(num2))
-    dfs(0, num3, length)
-    ans = 0
-    
-    for x in num3_list:
-        if length2 < len(bin(x)[2:]): 
+    for c in range(N):
+        # 2번 가지치기: for를 통해 board[r][c]가 0 일경우
+        if board[r][c] == 0:
             continue
         
-        now = abs(num2 - x)
-        
-        while now:
-            if now%2 ==0:
-                now //= 2
-            else:
-                if now == 1:
-                    ans = x
-                    break
-                break
-        if ans !=0:
-            break
-        
-    print(f'#{tc} {ans}')
+        if c_visited[c] == 0:
+            c_visited[c] = 1
+            dfs(r+1, total_percent*board[r][c])
+            c_visited[c] = 0
+            
+            
+def convert(x):
+    return int(x)*0.01
+
+
+for t in range(1, int(input())+1):
+    max_percent = 0
+    N = int(input())
+    board = [list(map(convert, input().split())) for _ in range(N)]
+    c_visited = [0 for _ in range(N)]
+    
+    dfs(0, 1)
+    print(f'#{t} {max_percent*100:0.6f}')

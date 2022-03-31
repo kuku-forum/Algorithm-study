@@ -3,7 +3,6 @@ from my_package.hjtc import swea_tc
     
 directions = [(1, 1), (1, -1), (-1, 1), (-1, -1)]
 
-
 def dfs(n, r):
     global answer
     
