@@ -1,14 +1,7 @@
-word = '##{a}###{b}###'
+from collections import deque
 
-lst = [['a', 1], ['b', 2]]
-
-# word = word.format(a=1)
-# word = word.format(b=2)
-# # for s, e in lst:
-# #     word = word.format(s=e)
-
-while False:
-    'do'
-else:
-    print('###')
-# print(word)
+a = deque([1,2,3,4,5])
+b = [1,2,3,4,5]
+print(a)
+print(b[:2])
+print(a[:2])
