@@ -70,7 +70,8 @@ def temp_control():
                 nr = r + dr
                 nc = c + dc
 
-                if R > nr >= 0 and C > nc >= 0 and not wall_dic.get((r, c, nr, nc)):
+                # if R > nr >= 0 and C > nc >= 0 and not wall_dic.get((r, c, nr, nc)):
+                if R > nr >= 0 and C > nc >= 0 and not (r, c, nr, nc) in wall_dic.keys():
                     next_temp = env_map[nr][nc]
 
                     if cur_temp > next_temp:
@@ -109,7 +110,8 @@ def heat_func():
         heat = 5
         heat_map = [[0 for _ in range(C)] for _ in range(R)]
 
-        if R > sr >= 0 and C > sc >= 0 and not wall_dic.get((r, c, sr, sc)):
+        # if R > sr >= 0 and C > sc >= 0 and not wall_dic.get((r, c, sr, sc)):
+        if R > sr >= 0 and C > sc >= 0 and not (r, c, sr, sc) in wall_dic.keys():
             visited = [[0 for _ in range(C)] for _ in range(R)]
             que = deque([])
             heat_map[sr][sc] += heat
@@ -127,7 +129,8 @@ def heat_func():
                         nc = ssc + sdc
 
                         if R > nr >= 0 and C > nc >= 0:
-                            if not wall_dic.get((ssr, ssc, nr, nc)) and visited[nr][nc] == 0 and heat_map[ssr][ssc] > 1:
+                            # if not wall_dic.get((ssr, ssc, nr, nc)) and visited[nr][nc] == 0 and heat_map[ssr][ssc] > 1:
+                            if not (ssr, ssc, nr, nc) in wall_dic.keys() and visited[nr][nc] == 0 and heat_map[ssr][ssc] > 1:
                                 heat_map[nr][nc] += heat_map[ssr][ssc]-1
                                 env_map[nr][nc] += heat_map[ssr][ssc] - 1
                                 visited[nr][nc] = 1
@@ -143,8 +146,10 @@ def heat_func():
                         nr2 = ssr + sdr2
                         nc2 = ssc + sdc2
 
-                        if R > nr1 >= 0 and C > nc1 >= 0 and not wall_dic.get((ssr, ssc, nr1, nc1)):
-                            if R > nr2 >= 0 and C > nc2 >= 0 and not wall_dic.get((nr1, nc1, nr2, nc2)):
+                        # if R > nr1 >= 0 and C > nc1 >= 0 and not wall_dic.get((ssr, ssc, nr1, nc1)):
+                        if R > nr1 >= 0 and C > nc1 >= 0 and not (ssr, ssc, nr1, nc1) in wall_dic.keys():
+                            # if R > nr2 >= 0 and C > nc2 >= 0 and not wall_dic.get((nr1, nc1, nr2, nc2)):
+                            if R > nr2 >= 0 and C > nc2 >= 0 and not (nr1, nc1, nr2, nc2) in wall_dic.keys():
                                 if visited[nr2][nc2] == 0 and heat_map[ssr][ssc] > 1:
                                     heat_map[nr2][nc2] += heat_map[ssr][ssc]-1
                                     env_map[nr2][nc2] += heat_map[ssr][ssc]-1
@@ -165,9 +170,3 @@ while flag:
     flag = finish_chk()
 
 print(answer)
-
-
-
-
-
-
