@@ -14,7 +14,8 @@ def gen_product(arr, n):
     return result
 
 # [[1, 1], [1, 2], [1, 3], [2, 1], [2, 2], [2, 3], [3, 1], [3, 2], [3, 3]]
-print(gen_product(store_lst, M))
+print()
+print('gen_product', gen_product(store_lst, M))
 
 
 def gen_combi(arr, n):
@@ -30,7 +31,8 @@ def gen_combi(arr, n):
     return result
 
 # [[1, 2], [1, 3], [2, 3]]
-print(gen_combi(store_lst, M))
+print()
+print('gen_combi', gen_combi(store_lst, M))
 '''
 [1,2,3,4,5,6,7]
 
@@ -54,7 +56,8 @@ def gen_permu(arr, n):
     return result
 
 # [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
-print(gen_permu(store_lst, M))
+print()
+print('gen_permu', gen_permu(store_lst, M))
 
 
 
@@ -69,7 +72,8 @@ def gen_combi_replace(arr, n):
             result.append([elem] + C)
     return result
 
-print(gen_combi_replace(store_lst, M))
+print()
+print('gen_combi_replace', gen_combi_replace(store_lst, M))
 # [ [1, 2], [1, 3],  [2, 3], [3, 3]] -> combination
 # -> combi replacement
 # [[1, 1], [1, 2], [1, 3], [2, 2], [2, 3], [3, 3]] ->
@@ -84,48 +88,27 @@ board = [[1, 2, 3],
          [4, 5, 6],
          [7, 8, 9]]
 
-def rotate90(arr):
+def rot90(arr):
     return list(map(list, zip(*reversed(arr))))
-print_board(rotate90(board))
+print()
+print('rotate 90')
+print_board(rot90(board))
 
-'''
-[7, 4, 1]
-[8, 5, 2]
-[9, 6, 3]
-'''
+def rot270(arr):
+    return list(map(list, zip(*arr)))[::-1]
+
+print('rot 270')
+print_board(rot270(board))
 
 
-def arotate90(arr):
-    return list(map(list, zip(*arr)))
+# 1.965, O(N)
+def rot180(arr):
+    return list(map(list, map(reversed, reversed(arr))))
 
-print_board(arotate90(board))
-'''
-[1, 4, 7]
-[2, 5, 8]
-[3, 6, 9]
+print('rot 180')
+print_board(rot180(board))
 
-'''
 
-'''
-# 무한 루프
-a = [1, 2, 3]
-for i in a:
-    print(i)
-    a.append(4)
-    
-# RuntimeError: dictionary changed size during iteration
-# dict 사이즈 에러
-b = {1:2, 2:4, 3: 5}
-for key in b.keys():
-    print(b[key])
-    b[4] = 6
-    
-# que 사이즈 에러
-# RuntimeError: deque mutated during iteration
-from collections import deque
 
-que = deque([1, 2, 3, 4])
-for q in que:
-    print(q)
-    que.append(5)
-'''
+
+

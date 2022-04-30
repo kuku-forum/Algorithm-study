@@ -169,4 +169,15 @@ while flag:
     answer += 1
     flag = finish_chk()
 
+<<<<<<< HEAD
 print(answer)
+=======
+print(answer)
+
+
+
+
+
+
+
+>>>>>>> a01b038997a04d976480cb5551e011493b6497e6
